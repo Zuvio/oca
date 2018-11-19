@@ -1,0 +1,364 @@
+
+Wrapper classes:
+- are final (no extends)
+- dont have a no-args constructor (always parameter)
+- Boolean("true") = true, everything else = false
+- Boolean class has two constructors - Boolean(String) and Boolean(boolean)
+- parseXXXX(string) returns a primitive - valueOf(string/primitive) returns an Object (hint: the one returning the primitive has the name of the primitive in it)
+- If the String passed in is not valid for the given type, Java throws an exception.
+- Boolean.valueOf(string/boolean) return static constant Boolean.TRUE/FALSE (objects)
+- == between primitive and wrapper is unbox to primitives and compare
+- == between wrappers is reference comparison
+- wrapper.equals(anotherWrapper) => same class? If not, no compile error but return 'false'. Signature of equals method is : boolean equals(Object o); So it can take any object and so there will be no compilation error.
+- the primitives below int have to be constructed with a cast, else they are int! Example: new Short((short) 1); With no cast, you would be assigning an int to a short = compile error.
+
+NULL is an object and can be assigned to ANY reference without errors! But when you try to use the object -> NullPointerException
+
+Note that "b" and "B" are different strings. "B" is not equal to "b". 
+'' en "" is NOOIT hetzelfde in java, '' is voor char en "" is voor string, ook al is het maar 1 char, dus String s = "a"; en NIET 'a'. 
+
+Assignment chaining is allowed in java, but only AFTER declaration. For example, int a = b = c = 100; is invalid if b and c are not already declared. Valid would be: int a, b, c; a = b = c = 100;
+
+Long.valueOf("123").longValue() returns a Long OBJECT containing 123. longValue() on the Long object returns 123. Remember parseLong vs valueOf
+
+First, static statements/blocks are called IN THE ORDER they are defined.
+Next, instance initializer statements/blocks are called IN THE ORDER they are defined.
+Finally, the constructor is called. So, it prints a b c 2 3 4 1.
+
+char is an integral value, all characters have an integer value.
+int (32bit)type is wider than the char (16bit)type so no cast required
+char type is narrower than int type so explicit cast required
+implicit narrowing conversion does not apply to float, long, or double.
+char = 1 <- char has integer value
+char = '1' <- char has character value ('0'=48,'1'=49 | 'A'=65 | 'a'=97 etc.) 
+        char c = 49;
+        int b = c;
+        char d = (char)b;  // een primitive casten is tegen de compiler zeggen: ik weet dat hij groter is maar prop hem er maar in!
+        System.out.println("c="+c+" | b="+b+" | d="+d);   // prints c=1 | b=49 | d=1
+bij casten van een primitive kan er data verlies optreden. De JVM kapt af en rondt NIET af!
+        double dd = 76.534;
+        int ee = (int)dd;  //je moet casten want een double is groter dan een int
+        System.out.println("dd="+dd+" | ee="+ee); // prints dd=76.534 | ee=76   <-afkappen vanaf de punt en dus NIET afronden!!
+                               
+You should remember that all numeric types, including char, get the value of 0 (or 0.0 for float and double) and boolean gets the value of false by default.
+Print b,s,i = print their value; print char 0 = print empty char ''; print long,float,double=toString so no letters l or f
+
+System.out.println(exception), a stack trace is NOT printed. Just the name of the exception class and the message is printed. Exception.printStackTrace(), a complete chain of the names of the methods called, along with the line numbers, is printed.
+        try {
+            throw new Exception();
+        } catch (Exception e) {
+            System.out.println(e);
+//            System.out.println(e.printStackTrace());   // dit kan niet! want printStackTrace() returns void en dat kun je niet printen
+            e.printStackTrace();  // hier zit al een println functie in, dus dit is voldoende om de stacktrace te printen
+        }
+
+A final variable must be initialized when an instance is constructed, or else the code will not compile. This can be done either in an instance initializer or in EVERY constructor.
+A final static variable must be initialized during declaration or at the latest in any static initializer.
+
+Automatic = method = local variables have to be explicitly initialized. However, it is ok to leave them uninitialized if you don't use them anywhere in the code...
+
+A non-static variable can only be accessed from a non-static block. Static variables can be accessed from any block.
+
+Variables can't be declared as abstract or native. Only methods can. Variables can not be overridden, they are automatically hidden if the extending class has the same name variable.
+
+System.gc() =  Runtime.getRuntime().gc() // garbage collection is only possible after an object becomes unreachable and gc can NEVER be forced or garantueed. finalize() is also not a grantuee.
+
+& is only true when both are true                                           (true and true)
+| is only false when both are false                           (false and false)
+^ is only true when both are different                   (true and different)
+
+Note that boolean operators have more precedence than =. (In fact, = has least precedence of all operators.)
+so, in (b2 != b1 = !b2)  first b2 != b1 is evaluated which returns a value 'false'. So the expression becomes false = !b2. And this is illegal because false is a value and not a variable!
+
+Valid Switch operators: basicenumS (byte/short/int/char/enum/String) inc WRAPPERS
+
+System.out.println(): If none of the parameters is a String, conversion to String will not happen!! No concatenation without at least 1 string. If the operands are numbers, sout will add ith +
+
+Variables declared in switch block are valid until switch blocks ENDS. It will not compile because of if(b) because b is declared in the switch block and it is out of scope after the switch block ends.
+Code blocks function the same wherever they are used. Code blocks are code blocks and variables in them do not life outside of them.
+
+'this' reference is not available WITHIN a static method.
+All non-static/instance methods in a class are implicitly passed a 'this' parameter when called.
+    // in main() which is STATIC!
+    TestClass tc = new TestClass();
+                // this.tc.foo();  // does NOT compile, because the 'this' reference is not available in a static method.
+                }
+    void bar() { this.foo(); foo(); }     // both method calls are the same! java enhances code by putting 'this.' in front of the second foo();
+    void foo() { System.out.println("in foo"); }
+
+Interfaces, classes, and enums are all "types". Java allows a class to implement multiple interfaces. In this way, Java supports multiple inheritance of types. Java does not support multiple inheritance of state.
+
+To run a class from the command line, you need a public static void main(String[] args) method, if not, you can change the main() around
+
+Note that the program ends with ExceptionInInitializerError because any exception thrown in a static block is wrapped into ExceptionInInitializerError and then that ExceptionInInitializerError is thrown. Remember that a static or instance initializer can only throw a RuntimeException. If you try to throw a checked exception from a static or instance initializer block to the outside, the code will not compile.
+
+For array classes, the isArray() method of a Class returns true. For example, int[][] twoD; twoD.getClass().isArray(); will return true. 
+
+Whether a call needs to be wrapped in a try/catch or whether the enclosing method requires a throws clause depends on the class of the reference and not the class of the actual object. This is because it is the compiler that checks whether a call needs to have exception handling and the compiler knows only about the declared class of a variable. It doesn't know about the actual object referred to by that variable (which is known only to JVM at run time).
+
+private final Test( ) { }   : A constructor cannot be final, static or abstract.
+
+System.out.println( getDatabase().url );
+                => getDatabase() returns an class object which results in Class.url and since url is a static field it's good!! Just execute the method call and see if the return value makes sense.
+                
+System.out.println(b.h+" "+b.getH());  // java has to evaluate all operands first, so when it evaluates b.getH() it already prints Beta 44 first! Then on next line is 4 44. since b.h gets the variable declared in the class of b The class of bb, on the other hand, is Beta. Thus, bb.h will always refer to Beta's h.
+
+getClass is a public instance method in Object class. That means it is polymorphic. In other words, this method is bound at run time and so it returns the name of the class of the actual object to which the reference points. 
+Here, at run time, both - a and aa, point to an object of class AA. So both will print AA.
+
+Note that there is no modifier for A's constructor. So it has default access. This means only classes in package a can use it. Also note that class B is in a different package and is extending from A. In B's constructor the compiler will automatically add super() as the first line. But since A() is not accessible in B, this code will not compile.
+
+This causes a conflict. A class cannot have two methods with the same signature in its scope where one is static and one is instance.
+Making the bar method in Bar interface a default method will not help either.  Because even though class Foo will not need have a definition of the bar method in Foo class itself, it will inherit that method from the Bar interface and the same conflict will occur.
+
+If evaluation of a dimension expression completes abruptly, no part of any dimension expression to its right will appear to have been evaluated.
+Thus, while evaluating a[val()][i=1]++,  val() throws an exception and i=1 will not be executed. Therefore, i remains 99 and a[1][1] will print 11.
+
+Remember : finally is always executed even if try or catch return; (Except when there is System.exit() in try or catch.)
+finally { System.out.println("finally");  }
+   return f ;
+Note that the return statement after finally block is unreachable. If you catch the right exception, the return of try or catch is returned. If you dont catch the right exception, the finally block is run which doesnt have a return statement and the program ends due to the exception so the return after the finally block is never run.
+
+objectref instanceof Class => does the objectref variable point to an object that is always of that class? 
+
+b instanceof A => b can be an A or a B!
+
+string s instanceof Date => It will not even compile because the compiler knows that 's' (which is declared as of class String) can NEVER refer to an object of class java.util.Date. So, it will not accept this code.
+
+None of LocalDate, LocalDateTime, or LocalTime store zone information.They are in package java.time and they have no relation at all to the old java.util.Date and java.sql.Date
+
+Since numbering in ArrayList starts with 0. al.get(2) will cause an IndexOutOfBoundsException on an ArrayList with 2 objects in it.
+
+while(true){s1.add("sdfa"); => It will throw a java.lang.OutOfMemoryError since the while loop will continue forever. while(true) and for(;;) are the classic infinite loops.
+
+Note that classes in the default package (i.e. the package with no name) cannot be imported by classes in other (i.e. non default) packages. What import statement would you use? This is why you should not use the default package for creating classes.
+
+
+
+
+
+
+
+L A M B D A S
+functional interface? It must have exactly one abstract method and may have other default or static methods
+ checkList(new ArrayList(), al -> al.isEmpty());
+The test method of Predicate returns a boolean. So all you need for your  body part in your lambda expression is an expression that returns a boolean. 
+isEmpty() is a valid method of ArrayList, which returns true if there are no elements in the list. Therefore, al.isEmpty() constitutes a valid body for the lambda expression in this case. Predicate is typed to List (not ArrayList) in the checkList method, therefore, the parameter type in the lambda expression must also be List. It cannot be ArrayList.
+
+There is a simple trick to identify invalid lambda constructs. When you write a lambda expression for a functional interface, you are essentially providing an implementation of the method declared in that interface but in a very concise manner.  Therefore, the lambda expression code that you write must contain all the pieces of the regular method code except the ones that the compiler can easily figure out on its own such as the parameter types, return keyword, and brackets. So, in a lambda expression, just check that all the information is there and that the expression follows the basic syntax:
+                (parameter list) OR single_variable_without_type -> { regular lines of code } OR just_an_expression_without_semicolon
+                a -> a.test()     <- GEEN SEMICOLON als je op deze manier schrijft!
+                (int a) -> { return a.test(); }   <- nu WEL een semicolon want je schrijft op de tradtitionele method manier
+
+Runner is a valid functional interface because it has exactly one abstract method. 
+Since this method does not take any parameter, the parameter list part of the lambda expression must be (). Further, since it does not return anything, the body part should ideally be such that it does not return anything either. Thus, you can either use a method call that returns void or some code enclosed within { and } that does not return anything. In this case, however, since there is only one interface with one method, it is ok even if the body of the lambda expression returns a value
+
+
+I N H E R I T E N C E   W H I C H   F I E L D   O R   M E T H O D   G E T S   U S E D 
+Remember that variables and static methods are not overridden and so access to variables and static methods is determined at compile time based on the type of the variable (instead of type of the object referred to by the variable, as is the case with instance methods.)
+In the given code, if you declare b to be of type B i.e. B b = new B();, you can access b.i. Always remember: Instance methods are overridden and variables are hidden. Which method is invoked depends on the class of the actual object, while which field is accessed depends on the class of the variable. Here, b refers to an object of class Beta so b.getH() will always call the overridden (subclass's method). However, the type of reference of b is Baap. so b.h will always refer to Baap's h. Further, inside Beta's getH(), Beta's h will be accessed instead of Baap's h because you are accessing this.h ('this' is implicit) and the type of this is Beta.
+                class A                                  { int lol=6; void methodOne() {System.out.println("in class A");} }
+                class B extends A             { int lol=9; void methodOne() {System.out.println("in class B");}}
+                class TestClass   { public static void main(String[] args) {
+                               A a = new A();
+                               a.methodOne(); //in class A
+                               System.out.println(a.lol); // lol =6
+
+                               B b = new B();
+                               b.methodOne(); // in class B
+                               System.out.println(b.lol); // lol= 9
+
+                               A c = new B();
+                               c.methodOne(); //in class B
+                               System.out.println(c.lol); // lol=6
+
+                //    B d = (B)new A();         // doet er niet toe want ClassCastException -> is het object waar d naar verwijst altijd een B? Is een A altijd een B? Nee! Dus cast als een (B). Maar dat is liegen want het is een A()...
+                //    d.methodOne();                                     // zou zeggen in class A
+                //    System.out.println(d.lol);// zou zeggen lol = 9   
+                }}
+                
+EXAMQUESTION: No exception is a valid subset of exceptions thrown by the overridden method. The rule is that an overriding method cannot throw an exception that is new or a super class of the exception thrown by the overridden method. 
+EXAMQUESTION: Note that method print() is overridden in class B. Due to polymorphism, the method to be executed is selected depending on the class of the actual object.
+Here, when an object of class B is created, first B's default constructor (which is not visible in the code but is automatically provided by the compiler because B does not define any constructor explicitly) is called. The first line of this constructor is a call to super(), which invokes A's constructor. A's constructor in turn calls print(). Now, print is a non-private instance method and is therefore polymorphic, which means, the selection of the method to be executed depends on the class of actual object on which it is invoked. Here, since the class of actual object is B, B's print is selected instead of A's print. At this point of time, variable i has not been initialized (because we are still in the middle of initializing A), so its default value i.e. 0 is printed. Finally, 4 is printed.
+EXAMQUESTION: Now, when you call m.move(10) and m.moveBack(20), the instance member location of Donkey is updated to 190 because  the reference m refers to a Donkey at run time and so move and moveBack methods of Donkey are invoked at runtime. However, when you print m.location, it is the Movable's location (which is never updated) that is printed.
+
+
+I N H E R I T E N C E   E X E R C I S E   W I T H   A N   E X C E P T I O N 
+                class A                                  { void methodOne() throws Exception {} }
+                class B extends A             { void methodOne() {}}
+                class TestClass   { public static void main(String[] args) { __ a = new __(); a.methodOne(); }}
+Which classes should be on the lines? If you use A a, the compiler only knows about the methodOne() from class A and that method throws an Exception that needs to be handled which the main() from TestClass does not do.
+So to compile, the reference variable has to be of class B and not A. If the ref class is B, then the object has to be B as well, since there is no cast specified. B a = new A(); will not compile since A is not a B. BN a = (B)new A(); would compile, but would also be a ClassCastException at RUNTIME since we promise the compiler that B a refers to a class B at runtime, but in fact it refers to class A. 
+So the endresult in this example can only be B b = new B();
+EXAMQUESTION: Now, even though the actual object referred to by 'g' is of class Soccer, the class of the variable g is of class Game. Therefore, at compile time, compiler assumes that g.play() might throw an exception, because Game's play method declares it, and thus expects this call to be either wrapped in a try-catch or the main method to have a throws clause for the main() method.
+=> COMPILETIME vs RUNTIME. Overriding occurs @ RUNTIME but @ COMPILETIME it has to be correct code. At COMPILETIME an exception? Handle or declare, despite @ RUNTIME it being an overridden method.
+EXAMQUESTION: if you do A a = new A(); a.methodOne(); you get a compiler because of the unhandled Exception. You can fix this in one other way: cast reference a to point to a B class @ RUNTIME like so: ((B)a).methodOne(); This works because a B is always an A so there will be no RUNTIME problems here. ((A)b).methodOne(); would be a problem because an A is not always a B. Due to explicit casting of 'a' to B, the compiler knows that 'a' will point to an object of class B (or its subclass), whose method m() does not throw an exception. So there is no need for a try catch block here. Object class does not have method m(). So o.m() will not compile. You can do ((B)o).m(); 
+Note the double parentheses are necessary: ((B)a).methodOne(); (B)a.methodOne(); will not compile.
+
+
+I N I T I A L I Z A T I O N   O R D E R 
+class A1{
+  static int i = 10;
+  static { System.out.println("A1 Loaded "); }
+}
+public class A{
+  static { System.out.println("A Loaded "); }
+  public static void main(String[] args){
+    System.out.println(" A should have been loaded");
+    A1 a1 = null;
+    System.out.println(" A1 should not have been loaded");
+    System.out.println(a1.i);
+  }
+}
+
+When you run it you get the output:
+A Loaded
+A should have been loaded
+A1 should not have been loaded
+A1 Loaded
+10
+Now, A should be loaded first as you are using its main method. Even though you are doing A1 a1 = null; A1 will not be loaded as it is not yet used (so the JVM figures out that it does not need to load it yet.) When you do a1.i, you are using A1, so before you use it, it must be loaded. That's when A1 is loaded. Finally 10 is printed.
+
+
+
+
+I N H E R I T E N C E   &   C L A S S C A S T E X C E P T I O N
+class A {}
+class B extends A {}
+class TestClass {
+    public static void main(String[] args) {
+        A a = new A();
+//        B b = a;     //Is het object waar a naar verwijst, altijd een B? Hier: is een A altijd een B? Nee!
+        B b = (B)a;    //Ik beloof de compiler tijdens COMPILETIME dat a tijdens RUNTIME naar een B object verwijst.
+                       //Dit levert een RUNTIME ClassCast exception op, want a verwijst niet naar een B, maar naar een A! 
+    }
+}
+
+
+
+A R R A Y S   T O   L I S T   &   L I S T   T O   A R R A Y
+int[] ai = new int[2]; List<Integer> li = Arrays.asList(ai);   // arrays.aslist is de backed list versie!!!
+List<String> strli = new ArrayList<>();  String[] strarr = strli.toArray(new String[0]);
+
+array as list  (BACKED!)
+lit to array   
+
+        Integer[] ai = new Integer[3];
+        ai[0] = new Integer(1);
+        ai[1] = 2;
+        ai[2] = 3;
+//    ArrayList al = Arrays.asList(ai); // dit kan niet, want asList() verwacht een List en geen ArrayList
+        List<Integer> li = Arrays.asList(ai);
+        li.set(1, 99);   // verander de waarde van index[1] in 99
+        System.out.println("in array="+ai[1]+" en in list="+li.get(1));  //zowel de array als de backed list zijn verandert!
+//        li.add(5);   // compiled prima, maar UnsupportedOperationException want de backed list lengte mag je niet veranderen
+
+        List<String> strli = new ArrayList<String>();
+        strli.add("first");
+        strli.add("second");
+        strli.add("third");
+//        String[] strarr =  strli.toArray();  // dit werkt alleen voor objecten en strarr gaat over Strings en niet objecten
+        String[] strarr =  strli.toArray(new String[0]);  // nu specificeer je dat het om Strings gaat, de [0] doet er niet toe
+        for(int index = 0 ; index < strarr.length ; index++)
+            System.out.println(strarr[index]); // ondanks new String[0] print hij toch alle 3 de elementen!!!!
+                                               
+                                               
+
+P R E D I C A T E 
+A functional interface is an interface that contains exactly one abstract method. It may contain zero or more default methods and/or static methods. Because a functional interface contains exactly one abstract method, you can omit the name of that method when you implement it using a lambda expression. For example, consider the following interface - 
+interface Predicate<T> {
+    boolean test(T t);
+}
+The purpose of this interface is to provide a method that operates on an object of class T and return a boolean.
+You could have a method that takes an instance of class that implements this interface defined like this - 
+public void printImportantData(ArrayList<Data> dataList, Predicate<Data> p){
+   for(Data d: dataList){
+      if(p.test(d)) System.out.println(d);
+   }
+}
+where Data class could be as simple as public class Data{ public int value; }
+
+Now, you can call the above method as follows:
+
+        printImportantData(al, (Data d)->{ return d.value>1; } ); 
+Notice the lack of method name here. This is possible because the interface has only one abstract method so the compiler can figure out the name. This can be shortened to:
+
+        printImportantData(al, (Data d)->d.value>1);  
+Notice the lack of curly brackets, the return keyword, and the semicolon. This is possible because the method returns a boolean and the expression d.value>1 also returns a boolean. The compiler is therefore able to figure out that the value of this expression is to be returned from the method. This can be shortened even more to:
+
+        printImportantData(al, d->d.value>1); 
+Notice that there is no declaration of d! The compiler can figure out all information it needs because the interface has only one abstract method and that method has only one parameter. So you don't need to write all those things in your code.
+        
+
+Compare the above approach to the old style using an inner class that does the same thing - 
+
+       printImportantData(al,  new Predicate<Data>(){ 
+                            public boolean test(Data d){ 
+                                 return d.value>1; 
+                             }   }   );
+
+The Predicate interface described above can be used anywhere there is a need to "do something with an object and return a boolean" and is actually provided by the standard java library in java.util.function package. This package provides a few other useful functional interfaces. 
+
+Predicate<T>    Represents a predicate (boolean-valued function) of one argument of type T.
+Consumer<T> Represents an operation that accepts a single input argument of type T and returns no result.
+Function<T,R> Represents a function that accepts one argument of type T and produces a result of type R
+Supplier<T> Represents a supplier of results of type T.
+
+For the exam, you only need to be aware of Predicate. 
+
+Please see http://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html for learning Lambda expressions in Java.
+
+
+O P E R A T O R  P R E C E D E N C E 
+a++
+++a
++,-,!
+*,/,%
++,-
+<< >>, >>>
+< > <= >=,instanceof
+== !=
+&,|,^
+&&,||
+x?x:x
++=,-=,=
+
+
+S T R I N G   M E T H O D S
+1. length()
+2. charAt()
+3. indexOf()
+4. substring()
+5. startsWith()
+6. endsWith()
+7. equals()
+8. equalsIgnoreCase()
+9. toUpperCase()
+10. toLowerCase()
+11. trim()
+12. contains()
+13. replace()
+
+S T R I N G B U I L D E R   M E T H O D S
+1. length()
+2. charAt()
+3. indexOf()
+4. substring()
+5. append()
+6. delete()
+7. insert()
+8. contains()
+9. toString()
+10. reverse()
+
+A R R A Y L I S T   M E T H O D S
+1. add()
+2. remove()
+3. set()
+4. clear() 
+5. size()
+6. isEmpty()
+7. contains()
+8. equals() //same elements in same order
+
+
